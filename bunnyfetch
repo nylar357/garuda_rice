@@ -1,0 +1,72 @@
+#!/bin/bash
+# Tiny colored fetch script
+# Requires Typicons Font to display the icons
+# elenapan @ github
+
+f=3 b=4
+for j in f b; do
+  for i in {0..7}; do
+    printf -v $j$i %b "\e[${!j}${i}m"
+  done
+done
+d=$'\e[1m'
+t=$'\e[0m'
+v=$'\e[7m'
+
+# Items
+sep=
+s=$d$f0$sep$t
+
+w=$(echo "  ")  
+wifiname="$(iwgetid | cut -d \" -f2)"
+
+h=$(echo " 🗔 ") 
+wmname="$(xprop -id $(xprop -root -notype | awk '$1=="_NET_SUPPORTING_WM_CHECK:"{print $5}') -notype -f _NET_WM_NAME 8t | grep "WM_NAME" | cut -f2 -d \")"
+
+k=$(echo " 🟕 ")
+kernel="$(uname -r | cut -d '-' -f1)"
+
+r=$(echo " 🖵 ") 
+resolution="$(xrandr | grep "primary" | awk '{print $4}')"
+
+sh=$(echo "  ")
+shell=$(basename $SHELL)
+
+ufw=$( echo " ﳼ ")
+ufwstatus="$(sudo ufw status | grep "Status" | awk '{print $0}')"
+
+temp=$(echo "  ")
+temper="$(i8kctl | grep "1.0" | awk '{print "Intel i7-8750H "$4""}')"
+
+proton=$(echo "  ")
+vpn="$(protonvpn-cli status | grep "IP" | awk '{print $2}') $(protonvpn-cli status | grep "No" | awk '{print $0}')"
+# (\ /)
+# ( · ·)
+# c(")(")
+
+# (\ /)
+# ( . .)
+# c(")(")
+
+tput clear
+cat << EOF
+
+             
+   (\ /)     $f4$proton  $t$vpn $t$vpn2
+   ( $d. .$t)    $d$ufw  $t$ufwstatus
+   c($f1"$t)($f1"$t)   $f4$w  $t$wifiname
+             $f4$temp  $t$temper 
+ $f1██████$d██$t $f2██████$d██$t $f3██████$d██$t $f4██████$d██$t $f5██████$d██$t $f6██████$d██$t 
+ $f1██████$d██$t $f2██████$d██$t $f3██████$d██$t $f4██████$d██$t $f5██████$d██$t $f6██████$d██$t 
+ $f1██████$d██$t $f2██████$d██$t $f3██████$d██$t $f4██████$d██$t $f5██████$d██$t $f6██████$d██$t 
+ $ft██████$d$f7██$t $ft██████$d$f7██$t $ft██████$d$f7██$t $ft██████$d$f7██$t $ft██████$d$f7██$t $ft██████$d$f7██$t         
+	     
+
+█▀▀▄ █──█ █── █▀▀█ █▀▀█ █▀▀█ █▀▀ ▀▀▀█ 
+█──█ █▄▄█ █── █▄▄█ █▄▄▀ ──▀▄ ▀▀▄ ──█─ 
+▀──▀ ▄▄▄█ ▀▀▀ ▀──▀ ▀─▀▀ █▄▄█ ▄▄▀ ─▐▌─
+
+
+
+EOF
+
